@@ -1,3 +1,11 @@
+#root{
+  background-color: #28334AFF;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow:auto;
+}
+
 .App {
   text-align: center;
 }

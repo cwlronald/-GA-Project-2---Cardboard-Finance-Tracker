@@ -1,24 +1,80 @@
-import logo from './logo.svg';
+import React, {useState} from 'react'
+import {BrowserRouter, Switch, Route} from "react-router-dom";
 import './App.css';
+import dotenv from 'dotenv'
+import Navigation from "./components/navigation/Navigation";
+import Home from "./components/home/Home";
+import Footer from "./components/footer/Footer";
+import CardViewSingle from "./components/cardViewSingle/CardViewSingle";
+import SearchView from "./components/searchView/SearchView";
+import Signup from "./components/signup/Signup";
+import Login from "./components/login/Login";
+import Profile from "./components/profile/Profile";
+import {Portfolio} from "./components/portfolio/Portfolio";
+import {AuthProvider} from "./lib/contexts/AuthContext";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
+import ForgotPassword from "./components/forgotPassword/ForgotPassword";
+import UpdateProfile from "./components/updateProfile/UpdateProfile";
+
+
+
+dotenv.config()
+
 
 function App() {
+
+  const [search,setSearch] = useState()
+  const [singleCard,setSingleCard] = useState()
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <Navigation/>
+          <Switch>
+
+            <Route path = '/' exact>
+              <Home search={search} setSearch={setSearch}/>
+            </Route>
+
+            <Route path='/search'>
+              <SearchView search={search} singleCard={singleCard} setSingleCard={setSingleCard}/>
+            </Route>
+
+            <Route path='/card'>
+              <CardViewSingle cardObj={singleCard}></CardViewSingle>
+            </Route>
+
+            <Route path='/signup'>
+              <Signup/>
+            </Route>
+
+            <Route path='/login'>
+              <Login/>
+            </Route>
+
+            <Route path='/forgot-password'>
+              <ForgotPassword/>
+            </Route>
+
+            <PrivateRoute path='/profile'>
+              <Profile setSingleCard={setSingleCard}/>
+            </PrivateRoute>
+
+            <PrivateRoute path='/update-profile'>
+              <UpdateProfile/>
+            </PrivateRoute>
+
+            <PrivateRoute path='/portfolio'>
+              <Portfolio/>
+            </PrivateRoute>
+
+
+
+          </Switch>
+        <Footer/>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
