@@ -26,12 +26,14 @@ function App() {
   const [search,setSearch] = useState()
   const [singleCard,setSingleCard] = useState()
   const [portfolioValue,setPortfolioValue]=useState()
+  const [firebaseCardList,setFirebaseCardList]=useState()
+
 
 
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Navigation portfolioValue={portfolioValue} setPortfolioValue={setPortfolioValue}/>
+        <Navigation portfolioValue={portfolioValue} setPortfolioValue={setPortfolioValue} firebaseCardList={firebaseCardList} setfirebaseCardList={setFirebaseCardList}/>
           <Switch>
 
             <Route path = '/' exact>
@@ -39,7 +41,7 @@ function App() {
             </Route>
 
             <Route path='/search'>
-              <SearchView search={search} singleCard={singleCard} setSingleCard={setSingleCard}/>
+              <SearchView search={search} singleCard={singleCard} setSingleCard={setSingleCard} portfolioValue={portfolioValue} firebaseCardList={firebaseCardList} />
             </Route>
 
             <Route path='/card'>
@@ -67,7 +69,7 @@ function App() {
             </PrivateRoute>
 
             <PrivateRoute path='/portfolio'>
-              <Portfolio setSingleCard={setSingleCard} portfolioValue={portfolioValue} setPortfolioValue={setPortfolioValue}/>
+              <Portfolio setSingleCard={setSingleCard} portfolioValue={portfolioValue} setPortfolioValue={setPortfolioValue} firebaseCardList={firebaseCardList}/>
             </PrivateRoute>
 
 

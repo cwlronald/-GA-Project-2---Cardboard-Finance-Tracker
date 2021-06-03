@@ -1,31 +1,10 @@
-import pokemon from 'pokemontcgsdk'
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Card, Container} from "react-bootstrap";
 import {NavLink} from "react-router-dom"
 import './CardView.css';
 import '../../App.css';
-import {ConvertData} from "../../lib/Function";
-import MockData from "../../lib/MockData";
 
-
-function CardView({search, singleCard, setSingleCard}){
-
-    const [cardList,setCardList] = useState([])
-
-    useEffect(()=>{
-        pokemon.configure({apiKey: process.env.REACT_APP_API_KEY})
-        async function getCardList() {
-            // let result = await pokemon.card.where({ q: `name:${search}` })
-            // let data = await result.data
-
-            let data = MockData
-
-
-            let newData = ConvertData(data)
-            setCardList(newData)
-        }
-        getCardList()
-    },[search])
+function CardView({cardList, setSingleCard}){
 
     function submit(cardObj){
         setSingleCard(cardObj)
@@ -45,8 +24,6 @@ function CardView({search, singleCard, setSingleCard}){
         }
 
     }
-
-
 
     return(
         <Container className='gallery'>

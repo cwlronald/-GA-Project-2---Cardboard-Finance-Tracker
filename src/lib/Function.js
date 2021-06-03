@@ -37,25 +37,36 @@ function ConvertData(data){
     return newData
 }
 
-function CreateTable({miscColumn,cardList,submit,firebaseData}){
+function CreateTable({cardList,submit}){
 
     const[newQuantity,setNewQuantity] = useState()
     const { currentUser } = useAuth()
+    const firebaseData=firebase.firestore().collection('usercarddata')
 
     function changeQuantity(e){
-        setNewQuantity(e.target.value)
+        setNewQuantity(parseInt(e.target.value))
+        console.log(e.target.value)
     }
 
     function writeToFirebase(id,pokemon,quantity,variant){
         let docRef=firebaseData.doc(currentUser.email)
-        docRef.set({
-            [`${id}-${variant}`]:{
-                'id':id,
-                'pokemon':pokemon,
-                'variant':variant,
-                'quantity':quantity,
-            }
-        },{merge:true})
+
+        if (parseInt(newQuantity)===0){
+            firebaseData.doc(currentUser.email).update({
+                [`${id}-${variant}`]: firebase.firestore.FieldValue.delete()
+            })
+            console.log('0 qty item deleted from firebase')
+        } else {
+            docRef.set({
+                [`${id}-${variant}`]:{
+                    'id':id,
+                    'pokemon':pokemon,
+                    'variant':variant,
+                    'quantity':quantity,
+                }
+            },{merge:true})
+            console.log('firebase updated')
+        }
     }
 
 
@@ -70,16 +81,19 @@ function CreateTable({miscColumn,cardList,submit,firebaseData}){
                 <th>Variant</th>
                 <th>Card Number</th>
                 <th>Market Price</th>
-                {miscColumn == 'Portfolio' ?
-                    <th>Portfolio</th>
-                    :
+                {currentUser ?
                     <>
+
                         <th>Quantity</th>
                         <th>Total Value</th>
                         <th>Change Quantity</th>
                     </>
+                :
+                    <></>
 
                 }
+
+
 
             </tr>
             </thead>
@@ -98,14 +112,24 @@ function CreateTable({miscColumn,cardList,submit,firebaseData}){
                         <td>{card.set.series}</td>
                         <td>{card.variant}</td>
                         <td>{`${card.number}/${card.set.total}`}</td>
-                        <td>{`$${card.marketprice}`}</td>
-                        {miscColumn == 'Portfolio' ?
-                            <td><Button variant="secondary" size='sm'>Add</Button></td>
+                        <td>{ card.marketprice ?
+                            `$${card.marketprice}`
                             :
+                            `-`
+                        }</td>
+
+                        {currentUser ?
                             <>
-                                <td>{card.quantity}</td>
-                                <td>${parseInt(card.quantity)*parseFloat(card.marketprice)}</td>
-                                <div className="d-flex pl-4 pr-4" id={'searchBar'} >
+                                <td>{card.quantity? card.quantity:0}</td>
+                                <td>
+                                    {card.quantity?
+                                        `$${card.totalvalue}`
+                                        :
+                                        `-`
+                                    }
+
+                                    </td>
+                                <div className="d-flex pl-4 pr-4" id={'searchBar'}>
                                     <FormControl
                                         type="search"
                                         className="mr-2 p-0"
@@ -118,24 +142,23 @@ function CreateTable({miscColumn,cardList,submit,firebaseData}){
                                         variant="secondary"
                                         size="sm" className='p-0'
                                         style={{fontSize: "x-small"}}
-                                        onClick={()=>(writeToFirebase(card.id,card.name,parseInt(newQuantity),card.variant))}>
+                                        onClick={()=>(writeToFirebase(card.id,card.name,newQuantity,card.variant))}>
                                         Submit
                                     </Button>
                                 </div>
                             </>
+                            :
+                            <></>
                         }
-
                     </tr>
                 ))}
                 </tbody>
                 :
                 <></>
             }
-
         </Table>
     )
 }
-
 
 export {
     ConvertData,
