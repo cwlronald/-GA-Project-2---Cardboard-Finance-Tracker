@@ -40,6 +40,28 @@ function Home({search,setSearch}) {
                         >Search
                         </NavLink>
                     </div>
+                    <div>
+                        <p className='text-center'>
+                            <img
+                                src='img/home_img.png'
+                                alt=""
+                                width="100"
+                                height="100"
+                            />
+                            <img
+                                src='img/home_img.png'
+                                alt=""
+                                width="100"
+                                height="100"
+                            />
+                            <img
+                                src='img/home_img.png'
+                                alt=""
+                                width="100"
+                                height="100"
+                            />
+                        </p>
+                    </div>
                 </div>
             </Container>
     )

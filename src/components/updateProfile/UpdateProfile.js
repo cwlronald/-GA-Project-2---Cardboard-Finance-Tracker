@@ -45,8 +45,7 @@ export default function UpdateProfile() {
     return (
         <Container
             className='d-flex align-items-center justify-content-center'
-            style={{minHeight:'100vh'}}
-        >
+            style={{height:'80%'}}>
             <div className='w-100' style={{maxWidth:'400px'}}>
                 <Card>
                     <Card.Body>
