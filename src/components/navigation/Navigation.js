@@ -6,6 +6,7 @@ import firebase from "../../lib/Firebase";
 import pokemon from "pokemontcgsdk";
 import MockData from "../../lib/MockData";
 import {ConvertData} from "../../lib/Function";
+import './Navigation.css';
 
 function Navigation({portfolioValue,setPortfolioValue,setfirebaseCardList}) {
     const { currentUser } = useAuth()
@@ -17,7 +18,7 @@ function Navigation({portfolioValue,setPortfolioValue,setfirebaseCardList}) {
         pokemon.configure({apiKey: process.env.REACT_APP_API_KEY})
         if (currentUser){
             async function getFirebaseCardList(){
-                await firebaseData.doc(currentUser.email).onSnapshot((querySnapshot)=>{
+                await firebaseData.doc(currentUser.email).onSnapshot(async (querySnapshot)=>{
                     try{
                         let firebaseUserCards = []
                         for (let i in querySnapshot.data()){
@@ -31,8 +32,11 @@ function Navigation({portfolioValue,setPortfolioValue,setfirebaseCardList}) {
 
                         // //successfully pulled the required cards from the pokemon api
                         // let pokemonApiQuery = cardIdToFilter.map(async card=> await pokemon.card.find(card))
-                        // let pokemonApiQueryResult = Promise.all(pokemonApiQuery)
+                        // let pokemonApiQueryResult = await Promise.all(pokemonApiQuery)
+
+
                         let pokemonApiQueryResult = MockData
+
 
                         //converted the pulled data to the required format
                         let newData = ConvertData(pokemonApiQueryResult)
@@ -73,7 +77,7 @@ function Navigation({portfolioValue,setPortfolioValue,setfirebaseCardList}) {
     }
 
     return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark" className='header'>
             <Container>
                 <Navbar.Brand>
                     <NavLink to="/" bg="dark" variant="dark">

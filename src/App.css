@@ -1,8 +1,9 @@
+
 #root{
   background-color: #28334AFF;
+  /*display: flex;*/
+  /*flex-direction: column;*/
   height: 100vh;
-  display: flex;
-  flex-direction: column;
   overflow:auto;
 }
 
@@ -43,4 +44,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  min-height:100vh
+}
+.content-wrap {
+  flex: 1;
 }

@@ -29,8 +29,8 @@ function CardView({cardList, setSingleCard}){
         <Container className='gallery'>
             {cardList.map(card => (
                 checkCardVariants(card)===true ?
-                    <NavLink to={`/card/${card.id}`} className='galleryImg hoverImg' onClick={()=>{submit(card)}} key={card.id}>
-                        <Card className="bg-dark text-white" key={card.id}>
+                    <NavLink to={`/card/${card.id}`} className='galleryImg hoverImg' onClick={()=>{submit(card)}} key={`${card.id}-${card.variant}`}>
+                        <Card className="bg-dark text-white" >
                             <div className='wrapper'>
                                 <Card.Img src={card.images.small}/>
                             </div>

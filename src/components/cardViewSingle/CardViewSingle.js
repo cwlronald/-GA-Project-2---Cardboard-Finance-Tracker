@@ -17,7 +17,7 @@ function CardViewSingle({cardObj}){
 
     return(
         <Container className="text-white pt-3 pb-3 d-flex justify-content-center align-items-center"
-                   style={{minHeight:'100vh'}}>
+                   style={{height:'80%'}}>
             {!cardDetails ?
                 'Loading':
                 <Row>

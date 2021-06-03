@@ -11,10 +11,8 @@ function ListView({cardList, setSingleCard}){
     }
 
     return(
-        <Container
-            className='d-flex'
-            style={{minHeight:'100vh'}}>
-            <div className='w-100'>
+        <Container>
+            <div>
                 <CreateTable miscColumn={'Portfolio'} cardList={cardList} submit={submit}/>
             </div>
         </Container>

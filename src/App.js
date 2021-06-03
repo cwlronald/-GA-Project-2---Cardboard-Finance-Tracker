@@ -15,69 +15,69 @@ import {AuthProvider} from "./lib/contexts/AuthContext";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import UpdateProfile from "./components/updateProfile/UpdateProfile";
-
-
+import {Container} from "react-bootstrap";
 
 dotenv.config()
 
 
 function App() {
-
   const [search,setSearch] = useState()
   const [singleCard,setSingleCard] = useState()
   const [portfolioValue,setPortfolioValue]=useState()
   const [firebaseCardList,setFirebaseCardList]=useState()
 
-
-
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <Navigation portfolioValue={portfolioValue} setPortfolioValue={setPortfolioValue} firebaseCardList={firebaseCardList} setfirebaseCardList={setFirebaseCardList}/>
-          <Switch>
+      <BrowserRouter>
+          <AuthProvider>
+            <div className='page-container'>
+              <div className='content-wrap'>
+                <Navigation portfolioValue={portfolioValue} setPortfolioValue={setPortfolioValue} firebaseCardList={firebaseCardList} setfirebaseCardList={setFirebaseCardList}/>
+                <Container className='pt-5'>
+                  <Switch>
 
-            <Route path = '/' exact>
-              <Home search={search} setSearch={setSearch}/>
-            </Route>
+                    <Route path = '/' exact>
+                      <Home search={search} setSearch={setSearch}/>
+                    </Route>
 
-            <Route path='/search'>
-              <SearchView search={search} singleCard={singleCard} setSingleCard={setSingleCard} portfolioValue={portfolioValue} firebaseCardList={firebaseCardList} />
-            </Route>
+                    <Route path='/search'>
+                      <SearchView search={search} setSingleCard={setSingleCard} portfolioValue={portfolioValue} firebaseCardList={firebaseCardList} />
+                    </Route>
 
-            <Route path='/card'>
-              <CardViewSingle cardObj={singleCard}></CardViewSingle>
-            </Route>
+                    <Route path='/card'>
+                      <CardViewSingle cardObj={singleCard}></CardViewSingle>
+                    </Route>
 
-            <Route path='/signup'>
-              <Signup/>
-            </Route>
+                    <Route path='/signup'>
+                      <Signup/>
+                    </Route>
 
-            <Route path='/login'>
-              <Login/>
-            </Route>
+                    <Route path='/login'>
+                      <Login/>
+                    </Route>
 
-            <Route path='/forgot-password'>
-              <ForgotPassword/>
-            </Route>
+                    <Route path='/forgot-password'>
+                      <ForgotPassword/>
+                    </Route>
 
-            <PrivateRoute path='/profile'>
-              <Profile setSingleCard={setSingleCard}/>
-            </PrivateRoute>
+                    <PrivateRoute path='/profile'>
+                      <Profile setSingleCard={setSingleCard}/>
+                    </PrivateRoute>
 
-            <PrivateRoute path='/update-profile'>
-              <UpdateProfile/>
-            </PrivateRoute>
+                    <PrivateRoute path='/update-profile'>
+                      <UpdateProfile/>
+                    </PrivateRoute>
 
-            <PrivateRoute path='/portfolio'>
-              <Portfolio setSingleCard={setSingleCard} portfolioValue={portfolioValue} setPortfolioValue={setPortfolioValue} firebaseCardList={firebaseCardList}/>
-            </PrivateRoute>
+                    <PrivateRoute path='/portfolio'>
+                      <Portfolio setSingleCard={setSingleCard} portfolioValue={portfolioValue} setPortfolioValue={setPortfolioValue} firebaseCardList={firebaseCardList}/>
+                    </PrivateRoute>
+                  </Switch>
+                </Container>
+              </div>
+              <Footer/>
+            </div>
+          </AuthProvider>
+      </BrowserRouter>
 
-
-
-          </Switch>
-        <Footer/>
-      </AuthProvider>
-    </BrowserRouter>
   );
 }
 

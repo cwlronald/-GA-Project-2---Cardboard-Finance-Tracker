@@ -16,16 +16,12 @@ export function Portfolio({setSingleCard, portfolioValue, firebaseCardList}){
     // writeToFirebase('pop5-2','Lugia',100,'holofoil')
 
     return(
-
-
         <Container
-            className='d-flex'
-            style={{minHeight:'100vh'}}>
+            style={{height:'100%'}}>
             <div className='w-100'>
-                <h2 className='text-white mt-3'>Total Portfolio Value: ${portfolioValue}</h2>
+                <h2 className='text-white mt-0 pt-0'>Total Portfolio Value: ${portfolioValue}</h2>
                 <CreateTable miscColumn={'Quantity'} cardList={firebaseCardList} submit={submit}></CreateTable>
             </div>
         </Container>
-
     )
 }

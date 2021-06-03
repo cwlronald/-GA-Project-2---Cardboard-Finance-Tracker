@@ -39,39 +39,60 @@ function ConvertData(data){
 
 function CreateTable({cardList,submit}){
 
-    const[newQuantity,setNewQuantity] = useState()
     const { currentUser } = useAuth()
     const firebaseData=firebase.firestore().collection('usercarddata')
 
-    function changeQuantity(e){
-        setNewQuantity(parseInt(e.target.value))
-        console.log(e.target.value)
-    }
 
-    function writeToFirebase(id,pokemon,quantity,variant){
-        let docRef=firebaseData.doc(currentUser.email)
+    function ChangeQuantity({card}){
+        const[newQuantity,setNewQuantity] = useState()
 
-        if (parseInt(newQuantity)===0){
-            firebaseData.doc(currentUser.email).update({
-                [`${id}-${variant}`]: firebase.firestore.FieldValue.delete()
-            })
-            console.log('0 qty item deleted from firebase')
-        } else {
-            docRef.set({
-                [`${id}-${variant}`]:{
-                    'id':id,
-                    'pokemon':pokemon,
-                    'variant':variant,
-                    'quantity':quantity,
+        function writeToFirebase(id,pokemon,quantity,variant){
+            let docRef=firebaseData.doc(currentUser.email)
+            let numbers = /^[-+]?[0-9]+$/
+            if (numbers.test(newQuantity)){
+                if (parseInt(newQuantity)===0){
+                    firebaseData.doc(currentUser.email).update({
+                        [`${id}-${variant}`]: firebase.firestore.FieldValue.delete()
+                    })
+                    console.log('0 qty item deleted from firebase')
+                } else {
+                    docRef.set({
+                        [`${id}-${variant}`]:{
+                            'id':id,
+                            'pokemon':pokemon,
+                            'variant':variant,
+                            'quantity':quantity,
+                        }
+                    },{merge:true})
+                    console.log('firebase updated')
                 }
-            },{merge:true})
-            console.log('firebase updated')
+            } else {
+                setNewQuantity('')
+                window.alert('Please enter numbers only')
+            }
         }
+        return(
+            <>
+                <FormControl
+                    type="search"
+                    className="mr-2 p-0"
+                    aria-label="Search"
+                    style={{fontSize: "small"}}
+                    onChange={(e)=>setNewQuantity(e.target.value)}
+                />
+                <Button
+                    variant="secondary"
+                    size="sm" className='p-0'
+                    style={{fontSize: "x-small"}}
+                    onClick={()=>(writeToFirebase(card.id,card.name,newQuantity,card.variant))}>
+                    Submit
+                </Button>
+            </>
+        )
     }
-
 
     return(
-        <Table striped bordered hover variant="dark" className='mt-4 mb-4'>
+        <Table striped bordered hover variant="dark" className='mt-4 mb-4' style={{height:'100%'}}>
             <thead>
             <tr style={{fontSize: "small"}} className='text-center'>
                 <th>#</th>
@@ -83,25 +104,20 @@ function CreateTable({cardList,submit}){
                 <th>Market Price</th>
                 {currentUser ?
                     <>
-
                         <th>Quantity</th>
                         <th>Total Value</th>
                         <th>Change Quantity</th>
                     </>
                 :
                     <></>
-
                 }
-
-
-
             </tr>
             </thead>
 
             {cardList ?
                 <tbody>
                 {cardList.map((card,index) => (
-                    <tr style={{fontSize: "small"}} className='text-center align-items-center justify-content-center'>
+                    <tr style={{fontSize: "small"}} className='text-center align-items-center justify-content-center' key={index}>
                         <td>{index+1}</td>
                         <td>
                             <NavLink to={`/card/${card.id}`} className='galleryImg' onClick={()=>{submit(card)}} key={card.id}>
@@ -117,35 +133,19 @@ function CreateTable({cardList,submit}){
                             :
                             `-`
                         }</td>
-
                         {currentUser ?
                             <>
                                 <td>{card.quantity? card.quantity:0}</td>
                                 <td>
-                                    {card.quantity?
-                                        `$${card.totalvalue}`
+                                    {card.quantity ?
+                                        `$${(card.quantity*card.marketprice).toFixed(2)}`
                                         :
                                         `-`
                                     }
-
                                     </td>
-                                <div className="d-flex pl-4 pr-4" id={'searchBar'}>
-                                    <FormControl
-                                        type="search"
-                                        className="mr-2 p-0"
-                                        aria-label="Search"
-                                        style={{fontSize: "small"}}
-                                        onChange={changeQuantity}
-
-                                    />
-                                    <Button
-                                        variant="secondary"
-                                        size="sm" className='p-0'
-                                        style={{fontSize: "x-small"}}
-                                        onClick={()=>(writeToFirebase(card.id,card.name,newQuantity,card.variant))}>
-                                        Submit
-                                    </Button>
-                                </div>
+                                <td className="d-flex pl-4 pr-4" id={'searchBar'}>
+                                    <ChangeQuantity card={card}/>
+                                </td>
                             </>
                             :
                             <></>

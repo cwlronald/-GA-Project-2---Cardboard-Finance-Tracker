@@ -11,7 +11,7 @@ import {ConvertData} from "../../lib/Function";
 
 
 
-function SearchView({search, setSingleCard, portfolioValue,firebaseCardList}){
+function SearchView({search,setSingleCard, portfolioValue,firebaseCardList}){
 
     const [viewState, setViewState] = useState('list')
     const {currentUser} = useAuth()
@@ -40,17 +40,17 @@ function SearchView({search, setSingleCard, portfolioValue,firebaseCardList}){
                     }
                 }
             }
-            // newData.sort((a, b) => a.totalvalue - b.totalvalue)
+
             setCardList(newData)
         }
         getCardList()
     },[firebaseCardList])
 
     return(
-        <Container>
+        <Container style={{height:'100%'}}>
             {currentUser ?
                 <Row>
-                    <h2 className='text-white mt-3'>Total Portfolio Value: ${portfolioValue}</h2>
+                    <h2 className='text-white mt-0 pt-0'>Total Portfolio Value: ${portfolioValue}</h2>
                 </Row>
             :
             <></>}

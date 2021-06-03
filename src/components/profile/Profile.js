@@ -23,14 +23,14 @@ export default function Profile(){
     return(
         <Container
             className='d-flex align-items-center justify-content-center'
-            style={{minHeight:'100vh'}}>
+            style={{height:'80%'}}>
             <div className='w-100' style={{maxWidth:'400px'}}>
                 <Card>
                     <Card.Body>
                         <h2 className='text-center mb-4'>Profile</h2>
                         {error && <Alert variant='danger'>{error}</Alert>}
 
-                        {currentUser.email? '': <><strong>Email:</strong> {currentUser.email}</>}
+                        {currentUser ? <><strong>Email:</strong> {currentUser.email}</>:''}
 
                         <Link to='/update-profile' className='btn btn-primary w-100 mt-3'>Update Profile</Link>
                     </Card.Body>
