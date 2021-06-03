@@ -1,6 +1,8 @@
 import {Button, FormControl, Table} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
-import React from "react";
+import React, {useState} from "react";
+import {useAuth} from "./contexts/AuthContext";
+import firebase from "firebase";
 
 function ConvertData(data){
     let newData=[]
@@ -35,11 +37,32 @@ function ConvertData(data){
     return newData
 }
 
-function CreateTable({miscColumn,cardList,submit}){
+function CreateTable({miscColumn,cardList,submit,firebaseData}){
+
+    const[newQuantity,setNewQuantity] = useState()
+    const { currentUser } = useAuth()
+
+    function changeQuantity(e){
+        setNewQuantity(e.target.value)
+    }
+
+    function writeToFirebase(id,pokemon,quantity,variant){
+        let docRef=firebaseData.doc(currentUser.email)
+        docRef.set({
+            [`${id}-${variant}`]:{
+                'id':id,
+                'pokemon':pokemon,
+                'variant':variant,
+                'quantity':quantity,
+            }
+        },{merge:true})
+    }
+
+
     return(
         <Table striped bordered hover variant="dark" className='mt-4 mb-4'>
             <thead>
-            <tr>
+            <tr style={{fontSize: "small"}} className='text-center'>
                 <th>#</th>
                 <th>Card Name</th>
                 <th>Set Name</th>
@@ -60,44 +83,56 @@ function CreateTable({miscColumn,cardList,submit}){
 
             </tr>
             </thead>
-            <tbody>
 
-            {cardList.map((card,index) => (
-                <tr>
-                    <td>{index+1}</td>
-                    <td>
-                        <NavLink to={`/card/${card.id}`} className='galleryImg' onClick={()=>{submit(card)}} key={card.id}>
-                            {card.name}
-                        </NavLink>
-                    </td>
-                    <td>{card.set.name}</td>
-                    <td>{card.set.series}</td>
-                    <td>{card.variant}</td>
-                    <td>{`${card.number}/${card.set.total}`}</td>
-                    <td>{`$${card.marketprice}`}</td>
-                    {miscColumn == 'Portfolio' ?
-                        <td><Button variant="secondary" size='sm'>Add</Button></td>
-                        :
-                        <>
-                            <td>{card.quantity}</td>
-                            <td>${parseInt(card.quantity)*parseFloat(card.marketprice)}</td>
-                            <div className="d-flex" id={'searchBar'} >
-                                <FormControl
-                                    type="search"
-                                    className="mr-2"
-                                    aria-label="Search"
-                                />
-                                <Button>Submit</Button>
-                            </div>
-                        </>
-                    }
+            {cardList ?
+                <tbody>
+                {cardList.map((card,index) => (
+                    <tr style={{fontSize: "small"}} className='text-center align-items-center justify-content-center'>
+                        <td>{index+1}</td>
+                        <td>
+                            <NavLink to={`/card/${card.id}`} className='galleryImg' onClick={()=>{submit(card)}} key={card.id}>
+                                {card.name}
+                            </NavLink>
+                        </td>
+                        <td>{card.set.name}</td>
+                        <td>{card.set.series}</td>
+                        <td>{card.variant}</td>
+                        <td>{`${card.number}/${card.set.total}`}</td>
+                        <td>{`$${card.marketprice}`}</td>
+                        {miscColumn == 'Portfolio' ?
+                            <td><Button variant="secondary" size='sm'>Add</Button></td>
+                            :
+                            <>
+                                <td>{card.quantity}</td>
+                                <td>${parseInt(card.quantity)*parseFloat(card.marketprice)}</td>
+                                <div className="d-flex pl-4 pr-4" id={'searchBar'} >
+                                    <FormControl
+                                        type="search"
+                                        className="mr-2 p-0"
+                                        aria-label="Search"
+                                        style={{fontSize: "small"}}
+                                        onChange={changeQuantity}
 
-                </tr>
-            ))}
-            </tbody>
+                                    />
+                                    <Button
+                                        variant="secondary"
+                                        size="sm" className='p-0'
+                                        style={{fontSize: "x-small"}}
+                                        onClick={()=>(writeToFirebase(card.id,card.name,parseInt(newQuantity),card.variant))}>
+                                        Submit
+                                    </Button>
+                                </div>
+                            </>
+                        }
+
+                    </tr>
+                ))}
+                </tbody>
+                :
+                <></>
+            }
+
         </Table>
-
-
     )
 }
 

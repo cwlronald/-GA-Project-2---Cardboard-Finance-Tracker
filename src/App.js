@@ -25,12 +25,13 @@ function App() {
 
   const [search,setSearch] = useState()
   const [singleCard,setSingleCard] = useState()
+  const [portfolioValue,setPortfolioValue]=useState()
 
 
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Navigation/>
+        <Navigation portfolioValue={portfolioValue} setPortfolioValue={setPortfolioValue}/>
           <Switch>
 
             <Route path = '/' exact>
@@ -66,7 +67,7 @@ function App() {
             </PrivateRoute>
 
             <PrivateRoute path='/portfolio'>
-              <Portfolio/>
+              <Portfolio setSingleCard={setSingleCard} portfolioValue={portfolioValue} setPortfolioValue={setPortfolioValue}/>
             </PrivateRoute>
 
 

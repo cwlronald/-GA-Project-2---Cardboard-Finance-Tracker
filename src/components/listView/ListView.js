@@ -33,6 +33,8 @@ function ListView({search, singleCard, setSingleCard}){
         setSingleCard(cardObj)
     }
 
+    //stretch goal to allow the list view to show what i have based on the pokemon i searched for
+
     return(
         <Container
             className='d-flex'

@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import {useAuth} from "../../lib/contexts/AuthContext";
 
 
-function Navigation() {
+function Navigation({portfolioValue,setPortfolioValue}) {
     const { currentUser } = useAuth()
 
     return (

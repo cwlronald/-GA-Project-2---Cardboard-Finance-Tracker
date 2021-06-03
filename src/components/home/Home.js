@@ -7,12 +7,12 @@ import {NavLink, useHistory} from "react-router-dom"
 
 function Home({search,setSearch}) {
 
-    let history = useHistory()
     function change(e){
         setSearch(e.target.value)
     }
-    function test(e){
 
+    let history = useHistory()
+    function keyDown(e){
         if (e.key==='Enter'){
             history.push(`/search/${search}`)
             console.log('enter pressed')
@@ -33,7 +33,7 @@ function Home({search,setSearch}) {
                             className="mr-2"
                             aria-label="Search"
                             onChange={change}
-                            onKeyDown={test}
+                            onKeyDown={keyDown}
                         />
                         <NavLink
                             to={`/search/${search}`}
