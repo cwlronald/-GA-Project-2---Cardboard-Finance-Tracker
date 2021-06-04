@@ -22,10 +22,10 @@ function SearchView({search,setSingleCard, portfolioValue,firebaseCardList}){
         pokemon.configure({apiKey: process.env.REACT_APP_API_KEY})
         async function getCardList() {
 
-            // let result = await pokemon.card.where({ q: `name:${search}` })
-            // let data = await result.data
+            let result = await pokemon.card.where({ q: `name:${search}` })
+            let data = await result.data
 
-            let data = MockData
+            // let data = MockData
 
 
             let newData = ConvertData(data)

@@ -6,7 +6,7 @@ Link to website: https://pacific-wildwood-59476.herokuapp.com/
 
 Ever since I was young, I have always had an extreme passion in the collectible aspect of trading card games but not so much the playing of the actual card game(the last time I actually learnt and played a card game was more than a decade ago). Pokemon, Yu-Gi-Oh, Raw Deal, Final Fantasy, Neopets, Battle Spirits, Flesh and Blood..... I've dabbled in collecting most of them. As I got older, the financial aspect of treating these hobbyist items as actual assets for investments intrigued me more and more. Since 2017, I've been actively tracking my personal portfolio of collectibles via Googlesheets. The data was recorded on a cost basis but not on actual market price valuation. Hence, I decided to build something that would allow me to track it!
 
-Unfortunately, I am not able to pull the live card prices from the API as I would get a 429 error request. This is due to my approach to the project which I will talk about further. 
+API pull request might be abit unstable, but it works! Credit to my instructor Ebere and TA Issac for helping me with this project
 
 ## Code breakdown
 The code can be broken down as such:

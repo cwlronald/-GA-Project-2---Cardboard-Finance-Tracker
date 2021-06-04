@@ -30,12 +30,12 @@ function Navigation({portfolioValue,setPortfolioValue,setfirebaseCardList}) {
                             cardIdToFilter.push(doc.id)
                         })
 
-                        // //successfully pulled the required cards from the pokemon api
-                        // let pokemonApiQuery = cardIdToFilter.map(async card=> await pokemon.card.find(card))
-                        // let pokemonApiQueryResult = await Promise.all(pokemonApiQuery)
+                        //successfully pulled the required cards from the pokemon api
+                        let pokemonApiQuery = cardIdToFilter.map(async card=> await pokemon.card.find(card))
+                        let pokemonApiQueryResult = await Promise.all(pokemonApiQuery)
 
 
-                        let pokemonApiQueryResult = MockData
+                        // let pokemonApiQueryResult = MockData
 
 
                         //converted the pulled data to the required format
