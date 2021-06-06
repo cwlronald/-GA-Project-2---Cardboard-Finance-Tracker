@@ -40,3 +40,14 @@ The last part which was challenging enough was coding in the mindset of the reac
 Due to the API limitation, it is not feasible to get this app out to many users until I'm able to fix it. Assuming that I can do that, the next step would be to integrate ebay API data to get a comprehensive view on the prices of graded cards as well.
 
 
+## Post Mortem
+# Approach and Process
+- What in my process and approach to this project would I do differently next time?
+Understanding code that I see online more thoroughly rather than just copying. Plan out the different components of the code better so as to prevent duplicated code as much as possible. Also try to understand css more.... the layout really took unecessarily long
+
+- What in my process and approach to this project went well that I would repeat next time?
+Trying out more new things rather than going for only the content that was taught in class
+    - reading and writing to firebase
+    - user authentication
+    - modular table with accompanying functions
+
